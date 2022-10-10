@@ -97,6 +97,12 @@ module.exports = {
             { _id: req.params.thoughtId },
             { $addToSet: { reactions: req.body } }
         )
+        .then((thought) =>
+            !thought
+                ? res.status(404).json({ message: 'No thought with this id!' })
+                : res.json(thought)
+        )
+        .catch((err) => res.status(500).json(err));
     },
     // DELETE a reaction from a thought's reaction array
     deleteReaction(req, res) {
@@ -104,6 +110,12 @@ module.exports = {
             { _id: req.params.thoughtId },
             { $pull: { reactions: req.params.reactionId } }
         )
+        .then((thought) =>
+            !thought
+                ? res.status(404).json({ message: 'No thought with this id!' })
+                : res.json(thought)
+        )
+        .catch((err) => res.status(500).json(err));
     }
 };
 
