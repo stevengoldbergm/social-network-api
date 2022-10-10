@@ -29,10 +29,12 @@ const userSchema = new Schema(
         } 
     },
     {
-        thoughts: {
-            type: Schema.Types.ObjectId,
-            ref: 'Thought',
-        }
+        thoughts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Thought',
+            }
+        ]
     },
     {
         // Array of User models
