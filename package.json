@@ -1,0 +1,29 @@
+{
+  "name": "social-network-api",
+  "version": "1.0.0",
+  "description": "A NoSQL API built for social-networks using Express.js, MongoDB, and Mongoose",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "dev": "nodemon index",
+    "seed": "node utils/seed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stevengoldbergm/social-network-db.git"
+  },
+  "author": "stevengoldbergm",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stevengoldbergm/social-network-db/issues"
+  },
+  "homepage": "https://github.com/stevengoldbergm/social-network-db#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^6.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.9"
+  }
+}
