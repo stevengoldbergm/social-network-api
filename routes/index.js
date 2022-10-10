@@ -9,3 +9,5 @@ router.use('/api', apiRoutes);
 router.use((req, res) => {
     return res.send('This is a backend application. Please choose an appropriate route!');
 });
+
+module.exports = router;
