@@ -24,10 +24,13 @@ const thoughtSchema = new Schema(
         }
     },
     {
-        // reactions: {
-        //     type: Schema.Types.ObjectId,
-        //     ref: 'Reaction'
-        // }
+        // reactions: [
+            // {
+            //     type: Schema.Types.ObjectId,
+            //     ref: 'Reaction'
+            // }
+        // ]
+        // Array of reactionSchema objects
         reactions: [reactionSchema], // testing
     },
     {

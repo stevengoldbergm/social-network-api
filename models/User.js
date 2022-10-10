@@ -35,10 +35,13 @@ const userSchema = new Schema(
         }
     },
     {
-        friends: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-        },
+        // Array of User models
+        friends: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+            }
+        ],
     },
     {
         toJSON: {
