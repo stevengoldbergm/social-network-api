@@ -61,21 +61,49 @@ module.exports = {
             //     "thoughtText": "value"
             // }
     updateThought(req, res) {
-
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $set: req.body },
+            { runValidators: true, new: true }
+        )
+        .then((thought) =>
+            !thought   
+                ? res.status(404).json({ message: 'No thought with is id!' })
+                : res.json(thought)
+        )
+        .catch((err) => res.status(500).json(err));
     },
-    // DELETE to remove a thought by its _id
+    // DELETE to remove a thought by its _id along with associated reactions
     deleteThought(req, res) {
-
+        Thought.findOneAndDelete({ _id: req.params.thoughtId })
+        .then((thought) =>
+            !thought   
+                ? res.status(404).json({ message: 'No thought with is id!' })
+                // This might not work, since Reaction is not a model
+                : Reaction.deleteMany({ _id: { $in: thought.reactions }})
+        )
+        .catch((err) => res.status(500).json(err));
     },
 
     // ---------- Reaction api calls ---------- //
     // POST new reaction to the reactions array
+        // req.body looks like:
+            // {
+            //     "reactionBody": "value"
+            //      "username": "value"
+            // }
     addReaction(req, res) {
-
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $addToSet: { reactions: req.body } }
+        )
     },
     // DELETE a reaction from a thought's reaction array
     deleteReaction(req, res) {
-
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $pull: { reactions: req.params.reactionId } }
+        )
     }
 };
 
