@@ -14,7 +14,7 @@ module.exports = {
     getSingleUser(req, res) {
         User.findOne({ _id: req.params.userId })
             .select('-__v') // don't select the versionKey
-            .populate('thoughts')
+            .populate('thoughts') // can I add 'friends' in here as well?
             .then((user) => 
                 !user
                     ? res.status(404).json({ message: 'No user with that ID!' })
@@ -34,11 +34,10 @@ module.exports = {
             .catch((err) => res.status(500).json(err));
     },
     // PUT to update a user by its _id
-            // req.body looks like:
+        // req.body looks like:
             // {
             //     "username": "value",
             //     "email": "value",
-            
             // }
     updateUser(req, res) {
         User.findOneAndUpdate(
@@ -63,13 +62,46 @@ module.exports = {
         )
         .then(() => res.json({ message: "User and associated thoughts deleted!" }))
         .catch((err) => res.status(500).json(err));
-    }
+    },
 
     // ---------- Friends api calls ---------- //
+    // GET all friends
+        // Won't be necessary if I can get the above code working
+    getFriendList(req, res) {
+        User.findOne({ _id: req.params.userId })
+        .then((user) =>
+            !user
+                ? res.status(404).json({ message: 'No user with this id!' })
+                : res.json(user.friends)
+        );
+    },
+    // POST to add a new friend to a user's friend list
+    addFriend(req, res) {
+        User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $addToSet: { friends: req.params.friendId } },
+            { runValidators: true, new: true }
+        )
+        .then((user) =>
+            !user
+                ? res.status(404).json({ message: 'No user with this id!' })
+                : res.json(user)
+        )
+        .catch((err) => res.status(500).json(err));
+    },
 
-    // getFriendList | GET all friends
-
-    // addFriend | POST to add a new friend to a user's friend list
-
-    // deleteFriend | DELETE to remove a friend from a user's friend list
-}
+    // DELETE to remove a friend from a user's friend list
+    deleteFriend(req, res) {
+        User.findOneAndDelete(
+            { _id: req.params.userId },
+            { $pull: { friends: req.params.friendId } },
+            { runValidators: true, new: true }
+        )
+        .then((user) =>
+            !user
+                ? res.status(404).json({ message: 'No user with this id!' })
+                : res.json(user)
+        )
+        .catch((err) => res.status(500).json(err));
+    },
+};
