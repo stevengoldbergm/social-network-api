@@ -2,8 +2,11 @@
 const { User, Thought } = require('../models');
 
 // ---------- Export methods ---------- //
+
 module.exports = {
+
     // ---------- User api calls ---------- //
+
     // GET all users
     getUsers(req, res) {
         User.find()
@@ -15,8 +18,8 @@ module.exports = {
     getSingleUser(req, res) {
         User.findOne({ _id: req.params.userId })
             .select('-__v') // don't select the versionKey
-            .populate({path: 'thoughts', select: '-__v'})
-            .populate({path: 'friends', select: '-__v'})
+            .populate({ path: 'thoughts', select: '-__v' })
+            .populate({ path: 'friends', select: '-__v' })
             .then((user) => 
                 !user
                     ? res.status(404).json({ message: 'No user with that ID!' })
@@ -70,8 +73,9 @@ module.exports = {
                         { runValidators: true, new: true }
                     )
                     .then((user) => console.log(user))
-                    .catch((err) => res.status(500).json(err))
+                    .catch((err) => res.status(500).json(err));
                 })
+                .catch((err) => res.status(500).json(err));
             } 
         })
         .then(() => res.json({ message: "User, associated thoughts, and friends list presence deleted!" }))
@@ -79,14 +83,14 @@ module.exports = {
     },
 
     // ---------- Friends api calls ---------- //
-    // GET all friends
-        // Adding for clarity
+
+    // GET all friends // Added for clarity
     getFriendList(req, res) {
         User.findOne({ _id: req.params.userId })
-        .populate('friends')
+        .populate({ path: 'friends', select: '-__v' })
         .then((user) =>
             !user
-                ? res.status(404).json({ message: 'No user with this id!' }) // Can this error even show?
+                ? res.status(404).json({ message: 'No user with this id!' })
                 : res.json(user.friends)
         )
         .catch((err) => res.status(500).json(err));
