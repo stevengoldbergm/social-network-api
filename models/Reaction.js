@@ -3,13 +3,13 @@ const Thought = require('./Thought');
 
 
 // Create function to get current date in a usable time stamp
-function currentDate(date) {
+function reactionDate(date) {
     const formattedDate = new Date(date).toLocaleString("en-US");
     return formattedDate;
 }
 // currentDate function test // Working
     // now = Date.now();
-    // console.log(currentDate(now));
+    // console.log(reactionDate(now));
 
 // Create Reaction Schema
 const reactionSchema = new Schema(
@@ -29,8 +29,8 @@ const reactionSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: Date.now(),
-            get: currentDate,
+            default: Date.now,
+            get: reactionDate,
         },
     },
     {
