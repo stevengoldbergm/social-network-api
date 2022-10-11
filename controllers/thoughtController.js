@@ -2,8 +2,11 @@
 const { User, Thought, Reaction } = require('../models');
 
 // ---------- Export methods ---------- //
+
 module.exports = {
+
     // ---------- Thought api calls ---------- //
+
     // GET all thoughts
     getThoughts(req, res) {
         Thought.find()
@@ -91,14 +94,11 @@ module.exports = {
         .then(() => res.status(200).json(
             { message: "Thought deleted and removed from user thoughts array." }
         ))
-                // Reaction.deleteMany({ _id: { $in: thought.reactions }})
-                // .then((thought) => 
-                //     res.json({ message: "Thought deleted from memory." })
-                // )
         .catch((err) => res.status(500).json(err));
     },
 
     // ---------- Reaction api calls ---------- //
+
     // POST new reaction to the reactions array
         // req.body looks like:
             // {
@@ -122,8 +122,8 @@ module.exports = {
     deleteReaction(req, res) {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
-            { $pull: { reactions: req.params.reactionId } },
-            { runValidators: true, new: true }
+            { $pull: { reactions: { reactionId: req.params.reactionId } } },
+            { runValidators: true, new: true },
         )
         .then((thought) =>
             !thought
