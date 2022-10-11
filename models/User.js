@@ -18,25 +18,22 @@ const userSchema = new Schema(
             unique: true,
             required: true,
             trim: true,
-        }
-    },
-    {
+        },
+
         email: {
             type: String,
             unique: true,
             required: true,
             validate: [validateEmail, "Please use a valid e-mail address"],
-        } 
-    },
-    {
+            trim: true
+        },
+
         thoughts: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Thought',
             }
-        ]
-    },
-    {
+        ],
         // Array of User models
         friends: [
             {

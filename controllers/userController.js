@@ -7,6 +7,7 @@ module.exports = {
     // GET all users
     getUsers(req, res) {
         User.find()
+            .select('-__v') // don't select the versionKey
             .then((users) => res.json(users))
             .catch((err) => res.status(500).json(err));
     },
@@ -29,6 +30,7 @@ module.exports = {
             //     "email": "value"
             // }
     createUser(req, res) {
+        console.log(req.body);
         User.create(req.body)
             .then((newUserData) => res.json(newUserData))
             .catch((err) => res.status(500).json(err));
