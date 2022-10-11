@@ -3,6 +3,8 @@
 
   [![License: MIT license](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+  ![image of API call for pulling all Users from database](imgs/socialNetwork1.png)
+
   ## Table of Contents
   * [Description](#description)
   * [Installation](#installation)
@@ -26,14 +28,18 @@
 
     npm install
 
+  <br>
+
   ## Usage
   To initialize the server, enter the following commant into the terminal:
 
-    npm start
+    npm run start
 
   Because this is a back-end application, users will need to utilize an API platform such as Postman or Insomnia to manipulate data.
 
   By entering the proper endpoints (all of which are found in the routes/api folder), users can perform various CRUD commands for the User and Thought models. Additionally, Users can add *other* Users as friends, and Thoughts can add reactions. Both friends and reactions are stored as dedicated arrays that are populated when an individual User or Thought is queried.
+
+  ![](imgs/socialNetwork2.png)
 
   All Thoughts associated with a specific User will be deleted if the User itself is deleted. Similarly, upon deletion, a User is removed from any friend list in which they are currently being referenced. 
   
