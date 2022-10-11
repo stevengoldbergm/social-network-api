@@ -25,21 +25,21 @@ const userSchema = new Schema(
             unique: true,
             required: true,
             validate: [validateEmail, "Please use a valid e-mail address"],
-            trim: true
+            trim: true,
         },
-
+        // Array of thoughts
         thoughts: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'Thought',
-            }
+                ref: 'thought', // ref case must match model('string')
+            },
         ],
         // Array of User models
         friends: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'User',
-            }
+                ref: 'user', // ref case must match model('string')
+            },
         ],
     },
     {
