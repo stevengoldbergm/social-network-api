@@ -12,7 +12,7 @@ module.exports = {
     },
     // GET a single thought by its _id
     getSingleThought(req, res) {
-        Thought.findOne({_id: req.params.userId})
+        Thought.findOne({ _id: req.params.thoughtId })
             .select('-__v') // Don't select the versionKey
             .populate('reactions')
             .then((thought) =>
@@ -66,6 +66,7 @@ module.exports = {
             { $set: req.body },
             { runValidators: true, new: true }
         )
+        .select('-__v') // Don't select the versionKey
         .then((thought) =>
             !thought   
                 ? res.status(404).json({ message: 'No thought with is id!' })
@@ -73,15 +74,27 @@ module.exports = {
         )
         .catch((err) => res.status(500).json(err));
     },
-    // DELETE to remove a thought by its _id along with associated reactions
+    // DELETE to remove a thought by its _id
     deleteThought(req, res) {
-        Thought.findOneAndDelete({ _id: req.params.thoughtId })
+        Thought.findOne({ _id: req.params.thoughtId })
         .then((thought) =>
-            !thought   
+            !thought
                 ? res.status(404).json({ message: 'No thought with is id!' })
-                // This might not work, since Reaction is not a model
-                : Reaction.deleteMany({ _id: { $in: thought.reactions }})
+                : User.findOneAndUpdate(
+                    { username: thought.username },
+                    { $pull: { thoughts: req.params.thoughtId } },
+                    { runValidators:true, new:true }
+                )
+                .then(() => Thought.findOneAndDelete({ _id: req.params.thoughtId }))
+                .catch((err) => res.status(500).json(err))
         )
+        .then(() => res.status(200).json(
+            { message: "Thought deleted and removed from user thoughts array." }
+        ))
+                // Reaction.deleteMany({ _id: { $in: thought.reactions }})
+                // .then((thought) => 
+                //     res.json({ message: "Thought deleted from memory." })
+                // )
         .catch((err) => res.status(500).json(err));
     },
 

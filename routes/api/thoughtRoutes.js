@@ -33,6 +33,6 @@ router.route('/:thoughtId/reactions/')
 
 // api/thoughts/:thoughtId/reactions/:reactionId
 router.route('/:thoughtId/reactions/:reactionId')
-    .delete(deleteReaction);
+    .put(deleteReaction);
 
 module.exports = router;
