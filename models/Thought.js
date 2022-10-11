@@ -29,14 +29,7 @@ const thoughtSchema = new Schema(
             type: String,
             required: true,
         },
-        // reactions: [
-            // {
-            //     type: Schema.Types.ObjectId,
-            //     ref: 'Reaction'
-            // }
-        // ]
-        // Array of reactionSchema objects
-        reactions: [reactionSchema], // testing
+        reactions: [reactionSchema],
     },
     {
         toJSON: {
@@ -51,7 +44,7 @@ const thoughtSchema = new Schema(
 thoughtSchema
     .virtual("reactionCount")
     .get(function () {
-        return this.reactions.length //Count of reactions array
+        return this.reactions.length // Count of reactions array
     });
 
 // Initialize the User model

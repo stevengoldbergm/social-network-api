@@ -118,11 +118,12 @@ module.exports = {
         )
         .catch((err) => res.status(500).json(err));
     },
-    // DELETE a reaction from a thought's reaction array
+    // PUT to remove a reaction from a thought's reaction array
     deleteReaction(req, res) {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
-            { $pull: { reactions: req.params.reactionId } }
+            { $pull: { reactions: req.params.reactionId } },
+            { runValidators: true, new: true }
         )
         .then((thought) =>
             !thought
