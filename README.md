@@ -12,7 +12,13 @@
 
   ## Description
 
+  You can watch a demo of the API in action [HERE!](https://watch.screencastify.com/v/zLBUbC2fFM9xU7OgaBsr)
+
+  <br>
+
   This is a NoSQL API built to simulate social-network functionality using Express.js, MongoDB, and Mongoose.js. It allows a programmer to add Users, user Thoughts, and thought Reactions to various data models. Users can have friends (other associated users) and Thoughts can have Reactions (comments to the thought).
+
+  <br>
 
   ## Installation
 
@@ -21,10 +27,13 @@
     npm install
 
   ## Usage
+  To initialize the server, enter the following commant into the terminal:
+
+    npm start
 
   Because this is a back-end application, users will need to utilize an API platform such as Postman or Insomnia to manipulate data.
 
-  By entering the proper endpoints (all of which are found in the routes/api folder), users can perform various CRUD commands for the User and Thought models. Additionally, Users can add *other* Users, and Thoughts can add Reactions. Both friends and reactions are stored as dedicated arrays that are referenced when an individual User or Thought is queried.
+  By entering the proper endpoints (all of which are found in the routes/api folder), users can perform various CRUD commands for the User and Thought models. Additionally, Users can add *other* Users as friends, and Thoughts can add reactions. Both friends and reactions are stored as dedicated arrays that are populated when an individual User or Thought is queried.
 
   All Thoughts associated with a specific User will be deleted if the User itself is deleted. Similarly, upon deletion, a User is removed from any friend list in which they are currently being referenced. 
   
