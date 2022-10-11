@@ -30,12 +30,12 @@ router.route('/:userId')
 
 // /api/users/:userId/friends/
     // May not be necessary
-router.route('/:userId/friends/')
+router.route('/:userId/friends')
     .get(getFriendList)
 
 // /api/users/:userId/friends/:friendId
 router.route('/:userId/friends/:friendId')
     .post(addFriend)
-    .delete(deleteFriend)
+    .put(deleteFriend)
 
 module.exports = router;

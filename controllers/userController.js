@@ -15,7 +15,7 @@ module.exports = {
     getSingleUser(req, res) {
         User.findOne({ _id: req.params.userId })
             .select('-__v') // don't select the versionKey
-            .populate('thoughts') // can I add 'friends' in here as well?
+            // .populate('thoughts') // what does populate even do?
             .then((user) => 
                 !user
                     ? res.status(404).json({ message: 'No user with that ID!' })
@@ -68,14 +68,15 @@ module.exports = {
 
     // ---------- Friends api calls ---------- //
     // GET all friends
-        // Won't be necessary if I can get the above code working
+        // Adding for clarity
     getFriendList(req, res) {
         User.findOne({ _id: req.params.userId })
         .then((user) =>
             !user
-                ? res.status(404).json({ message: 'No user with this id!' })
+                ? res.status(404).json({ message: 'No user with this id!' }) // Can this error even show?
                 : res.json(user.friends)
-        );
+        )
+        .catch((err) => res.status(500).json(err));
     },
     // POST to add a new friend to a user's friend list
     addFriend(req, res) {
@@ -94,7 +95,7 @@ module.exports = {
 
     // DELETE to remove a friend from a user's friend list
     deleteFriend(req, res) {
-        User.findOneAndDelete(
+        User.findOneAndUpdate(
             { _id: req.params.userId },
             { $pull: { friends: req.params.friendId } },
             { runValidators: true, new: true }
