@@ -1,6 +1,16 @@
 const { Schema, model } = require('mongoose');
 const reactionSchema = require('./Reaction');
 
+// Create function to get current date in a usable time stamp
+function currentDate(date) {
+    const formattedDate = new Date(date).toLocaleString("en-US");
+    return formattedDate;
+}
+
+// currentDate function test // Working
+    // now = Date.now();
+    // console.log(currentDate(now));
+
 // Schema to create new Thought model
 const thoughtSchema = new Schema(
     {
@@ -10,12 +20,11 @@ const thoughtSchema = new Schema(
             minLength: 1,
             maxLength: 280,
         },
-
         createdAt: {
             type: Date,
             default: Date.now(),
+            get: currentDate,
         },
-
         username: {
             type: String,
             required: true,
@@ -32,6 +41,7 @@ const thoughtSchema = new Schema(
     {
         toJSON: {
             virtuals: true,
+            getters: true,
         },
         id: false,
     }

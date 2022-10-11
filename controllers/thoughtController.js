@@ -102,13 +102,14 @@ module.exports = {
     // POST new reaction to the reactions array
         // req.body looks like:
             // {
-            //     "reactionBody": "value"
+            //     "reactionBody": "value",
             //      "username": "value"
             // }
     addReaction(req, res) {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
-            { $addToSet: { reactions: req.body } }
+            { $addToSet: { reactions: req.body } },
+            { runValidators:true, new:true }
         )
         .then((thought) =>
             !thought
