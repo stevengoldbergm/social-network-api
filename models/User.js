@@ -31,14 +31,14 @@ const userSchema = new Schema(
         thoughts: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'thought', // ref case must match model('string')
+                ref: 'Thought', // ref case must match model schema string | model('thought', thoughtSchema)
             },
         ],
         // Array of User models
         friends: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'user', // ref case must match model('string')
+                ref: 'User', // ref case must match model schema string | model('user', userSchema)
             },
         ],
     },
@@ -58,6 +58,6 @@ userSchema
     });
 
 // Initialize the User model
-const User = model('user', userSchema);
+const User = model('User', userSchema);
 
 module.exports = User;

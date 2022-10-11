@@ -58,12 +58,23 @@ module.exports = {
     // DELETE to remove a user by its _id
     deleteUser(req, res) {
         User.findOneAndDelete({ _id: req.params.userId })
-        .then((user) =>
-            !user
-                ? res.status(404).json({ message: 'No user with this id!' })
-                : Thought.deleteMany({ _id: { $in: user.thoughts } })
-        )
-        .then(() => res.json({ message: "User and associated thoughts deleted!" }))
+        .then((user) => {
+            if (!user) {
+                res.status(404).json({ message: 'No user with this id!' })
+            } else {
+                Thought.deleteMany({ _id: { $in: user.thoughts } })
+                .then(() => {
+                    User.updateMany(
+                        { friends: { _id: req.params.userId } },
+                        { $pull: { friends: req.params.userId } },
+                        { runValidators: true, new: true }
+                    )
+                    .then((user) => console.log(user))
+                    .catch((err) => res.status(500).json(err))
+                })
+            } 
+        })
+        .then(() => res.json({ message: "User, associated thoughts, and friends list presence deleted!" }))
         .catch((err) => res.status(500).json(err));
     },
 
@@ -72,6 +83,7 @@ module.exports = {
         // Adding for clarity
     getFriendList(req, res) {
         User.findOne({ _id: req.params.userId })
+        .populate('friends')
         .then((user) =>
             !user
                 ? res.status(404).json({ message: 'No user with this id!' }) // Can this error even show?
